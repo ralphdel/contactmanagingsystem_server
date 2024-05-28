@@ -10,37 +10,34 @@ const app = express();
 
 app.use(express.json());
 
-const corsOptions = {
+
+// Enable CORS with specified origin
+app.use(cors({
   origin: 'https://ralphcontactms.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  optionsSuccessStatus: 204
-};
+  credentials: true
+}));
 
-// Middleware to handle preflight requests
-app.options('*', cors(corsOptions));
-
-// Log requests for debugging
+// Middleware to log requests for debugging
 app.use((req, res, next) => {
-  console.log('Request Origin:', req.headers.origin);
-  console.log('Request Method:', req.method);
+  console.log(`Incoming request: ${req.method} ${req.path}`);
+  console.log('Request headers:', req.headers);
   next();
 });
 
+app.use('/contactms', Router);
 
-/*app.use((req, res, next) => {
-  console.log('CORS origin:', req.headers.origin);
-  next();
-});
-*/
+// Handle preflight requests
+app.options('*', cors({
+  origin: 'https://ralphcontactms.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 
-app.use(
-  cors((corsOptions))
-);
 
-app.use("/contactms", Router);
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log("server is running");
 });
