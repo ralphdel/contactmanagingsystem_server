@@ -13,7 +13,7 @@ app.use(
     origin: ["https://ralphcontactms.vercel.app"],
     methods: ['GET', 'POST', 'PUT','DELETE'],
     credentials: true,
-    //allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "Accept"],
   })
 );
 dotenv.config({ path: "./config/.env" });
