@@ -5,10 +5,16 @@ import './config/databaseconnection.js'
 import { Router } from './routes/routes.js'
 
 const app =express()
-app.use(express.json())
-app.use(cors())
-dotenv.config({path:"./config/.env"})
 
+app.use(express.json())
+
+app.use(cors({
+  origin: ["https://ralphcontactms.vercel.app/"],
+  methods:['GET, POST, PUT, DELETE'],
+  credentials:true
+  
+}))
+dotenv.config({path:"./config/.env"})
 app.use('/contactms', Router)
 
 
