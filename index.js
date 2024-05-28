@@ -15,9 +15,19 @@ const corsOptions = {
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
-  preflightContinue:false,
   optionsSuccessStatus: 204
 };
+
+// Middleware to handle preflight requests
+app.options('*', cors(corsOptions));
+
+// Log requests for debugging
+app.use((req, res, next) => {
+  console.log('Request Origin:', req.headers.origin);
+  console.log('Request Method:', req.method);
+  next();
+});
+
 
 /*app.use((req, res, next) => {
   console.log('CORS origin:', req.headers.origin);
